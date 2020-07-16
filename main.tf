@@ -9,7 +9,7 @@ resource "aws_instance" "server" {
   associate_public_ip_address = true
 
   count = 4 # create four similar EC2 instances
-  
+
   tags = {
     Name = "Server ${count.index}"
   }  
@@ -69,10 +69,10 @@ resource "aws_security_group" "sg_default_ports" {
 
 output "public_ip" {
   description = "List of public IP addresses assigned to the instances, if applicable"
-  value       = aws_instance.nginx.*.public_ip
+  value       = aws_instance.server.*.public_ip
 }
 
 output "public_dns" {
   description = "List of public DNS names assigned to the instances. Can only be used inside the Amazon EC2, and only available if you've enabled DNS hostnames for your VPC"
-  value       = aws_instance.nginx.*.public_dns
+  value       = aws_instance.server.*.public_dns
 }
