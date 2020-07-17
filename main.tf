@@ -5,10 +5,10 @@ provider "aws" {
 resource "aws_instance" "server" {
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = var.instance_type
-  key_name                    =  var.key_name 
+  key_name                    = var.key_name 
   associate_public_ip_address = true
 
-  count = 4 # create four similar EC2 instances
+  count = 3 # create three similar EC2 instances
 
   tags = {
     Name = "Server ${count.index}"
@@ -19,8 +19,6 @@ resource "aws_instance" "server" {
   vpc_security_group_ids = [
     aws_security_group.sg_default_ports.id,
   ]
-
-  
 
 }
 
