@@ -1,7 +1,7 @@
 # Introduction
-This is a terraform project to deploy 3 EC2 Instances and install docker. This will create the following resources in AWS:
+This is a terraform project to deploy 3 EC2 Instances(ubuntu). This will create the following resources in AWS:
 - 3 EC2 instances(ubuntu 18.04) in default VPC
-- Security groups to to allow access on http, https and ssh protocols
+- Security groups to to allow access on http, https, ssh protocols and all ports only to VPC CIDR
 
 # How To Run
 - Clone this repository
