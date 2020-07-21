@@ -2,6 +2,12 @@ provider "aws" {
   region = var.aws_region
 }
 
+resource "aws_default_vpc" "default" { # get data from default vpc
+  tags = {
+    Name = "Default VPC" # add a tag
+  }
+}
+
 resource "aws_instance" "server" {
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = var.instance_type
@@ -24,7 +30,7 @@ resource "aws_instance" "server" {
 
 resource "aws_security_group" "sg_default_ports" {
   name = "web-access-group"
-  description = "Allow traffic on port 80 (HTTP), 443 (HTTP) and 22(SSH)"
+  description = "Allow traffic on port 80 (HTTP), 443 (HTTP), 22(SSH) and all other traffic from instances in the same vpc"
 
   tags = {
     Name = "Security Group - Default Ports"
@@ -61,7 +67,16 @@ resource "aws_security_group" "sg_default_ports" {
     cidr_blocks = [
       "0.0.0.0/0"
     ]
-  }  
+  } 
+
+  ingress { #Allow traffic to instances inside the same VPC
+    from_port = 0
+    to_port = 0
+    protocol = "-1"
+    cidr_blocks = [
+      aws_default_vpc.default.cidr_block
+    ]
+  }
 
 }
 
